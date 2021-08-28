@@ -11,6 +11,7 @@ const calculateBMI = () => {
     const enteredHeight = +heightInput.value / 100;
     const enteredWeight = +weightInput.value;
     let category = "";
+
     const bmi = enteredWeight / (enteredHeight * enteredHeight);
 
     if (bmi < 18.5){
