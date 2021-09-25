@@ -1,7 +1,19 @@
-import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
-import Home from './pages/Home';
+import {
+    IonApp, IonContent, IonHeader,
+    IonIcon, IonItem,
+    IonLabel,
+    IonList, IonMenu, IonMenuToggle,
+    IonPage,
+    IonRouterOutlet,
+    IonTabBar,
+    IonTabButton,
+    IonTabs, IonTitle, IonToolbar
+} from "@ionic/react";
+import {IonReactRouter} from "@ionic/react-router";
+import {Redirect, Route} from "react-router";
+import Mail from "./pages/Mail";
+import MailDetail from "./pages/MailDetail";
+import {list, mailOutline, menu, settings, videocamOutline, warning} from "ionicons/icons";
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -21,20 +33,54 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import {calculatorOutline, refreshOutline} from "ionicons/icons";
+import {useRef, useState} from "react";
+import MailTabs from "./pages/MailTabs";
+import Settings from "./pages/Settings";
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
-);
+
+const App:React.FC = () => {
+    return(
+        <IonApp>
+            <IonReactRouter>
+                <IonMenu contentId="main">
+                    <IonHeader>
+                        <IonToolbar>
+                            <IonTitle>Ionic Mail</IonTitle>
+                        </IonToolbar>
+                    </IonHeader>
+                    <IonContent>
+                        <IonList>
+                            <IonMenuToggle>
+                                <IonItem button routerLink="/tabs/mail">
+                                    <IonIcon slot="start" icon={list} />
+                                    <IonLabel>All Mail</IonLabel>
+                                </IonItem>
+                            </IonMenuToggle>
+                            <IonMenuToggle>
+                                <IonItem button routerLink="/tabs/spam">
+                                    <IonIcon slot="start" icon={warning} />
+                                    <IonLabel>Spam</IonLabel>
+                                </IonItem>
+                            </IonMenuToggle>
+                            <IonMenuToggle>
+                                <IonItem button routerLink="/settings">
+                                    <IonIcon slot="start" icon={settings} />
+                                    <IonLabel>Settings</IonLabel>
+                                </IonItem>
+                            </IonMenuToggle>
+                        </IonList>
+                        </IonContent>
+                </IonMenu>
+                <IonRouterOutlet id="main">
+                    <Route path="/tabs" component={MailTabs} />
+                    <Route path="/mail/:mailId" component={MailDetail} />
+                    <Route path="/settings" component={Settings} />
+                    <Redirect exact from="/" to="/tabs" />
+                </IonRouterOutlet>
+            </IonReactRouter>
+        </IonApp>
+    )
+};
 
 export default App;
