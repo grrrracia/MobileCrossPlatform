@@ -1,5 +1,6 @@
-import React, {useRef} from "react";
+import React, {useRef, useState} from "react";
 import {
+    IonAlert,
     IonApp, IonAvatar, IonButton,
     IonButtons,
     IonContent,
@@ -43,45 +44,46 @@ const Meet: React.FC = () => {
     };
 
     return(
-        <IonPage>
-            <IonHeader>
-                <IonToolbar>
-                    <IonButtons slot="start">
-                        <IonMenuButton/>
-                    </IonButtons>
-                    <IonTitle>Meet</IonTitle>
-                </IonToolbar>
-            </IonHeader>
-            <IonContent>
-                {FRIENDS_DATA.map(friend => (
-                    <IonItemSliding key={friend.id} ref={slidingOptionsRef}>
-                        <IonItemOptions side="start">
-                            <IonItemOption color="danger" onClick={blockFriendHandler}>
-                                <IonIcon icon={banSharp} slot="icon-only"/>
-                            </IonItemOption>
-                            <IonItemOption color="warning" onClick={deleteFriendHandler}>
-                                <IonIcon icon={trash} slot="icon-only"/>
-                            </IonItemOption>
-                        </IonItemOptions>
-                        <IonItemOptions side="end">
-                            <IonItemOption color="warning" onClick={editFriendHandler}>
-                                <IonIcon icon={create} slot="icon-only"/>
-                            </IonItemOption>
-                        </IonItemOptions>
-                        <IonItem key={friend.id}
-                             lines="full"
-                             button
-                             onClick={callFriendHandler}>
-                            <IonAvatar slot="start">
-                                <img src={friend.avatar}/>
-                            </IonAvatar>
-                        <IonLabel>{friend.name}</IonLabel>
-                                <IonIcon icon={chevronForwardOutline} slot="end"/>
-                    </IonItem>
-                    </IonItemSliding>
-                ))}
-            </IonContent>
-        </IonPage>
+            <IonPage>
+                <IonHeader>
+                    <IonToolbar>
+                        <IonButtons slot="start">
+                            <IonMenuButton/>
+                        </IonButtons>
+                        <IonTitle>Meet</IonTitle>
+                    </IonToolbar>
+                </IonHeader>
+                <IonContent>
+                    {FRIENDS_DATA.map(friend => (
+                        <IonItemSliding key={friend.id} ref={slidingOptionsRef}>
+                            <IonItemOptions side="start">
+                                <IonItemOption color="danger" onClick={blockFriendHandler}>
+                                    <IonIcon icon={banSharp} slot="icon-only"/>
+                                </IonItemOption>
+                                <IonItemOption color="warning" onClick={deleteFriendHandler}>
+                                    <IonIcon icon={trash} slot="icon-only"/>
+                                </IonItemOption>
+                            </IonItemOptions>
+                            <IonItemOptions side="end">
+                                <IonItemOption color="warning" onClick={editFriendHandler}>
+                                    <IonIcon icon={create} slot="icon-only"/>
+                                </IonItemOption>
+                            </IonItemOptions>
+                            <IonItem key={friend.id}
+                                 lines="full"
+                                 button
+                                 onClick={callFriendHandler}>
+                                <IonAvatar slot="start">
+                                    <img src={friend.avatar}/>
+                                </IonAvatar>
+                            <IonLabel>{friend.name}</IonLabel>
+                                    <IonIcon icon={chevronForwardOutline} slot="end"/>
+                        </IonItem>
+                        </IonItemSliding>
+                    ))}
+                </IonContent>
+            </IonPage>
+
     );
 }
 export default Meet;
