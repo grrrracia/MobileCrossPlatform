@@ -5,7 +5,7 @@ import {
     IonButtons, IonCol,
     IonContent, IonFab, IonFabButton, IonGrid,
     IonHeader, IonIcon, IonInput,
-    IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel,
+    IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList,
     IonMenuButton, IonModal,
     IonPage, IonRow,
     IonTitle, IonToast,
@@ -29,13 +29,23 @@ const Meet: React.FC = () => {
     const nameRef = useRef<HTMLIonInputElement>(null);
 
     const slidingOptionsRef = useRef<HTMLIonItemSlidingElement>(null);
-    const blockFriendHandler = (event: React.MouseEvent) => {
+
+    const [startBlocking, setStartBlocking] = useState(false);
+    const startBlockFriendHandler = () => {
+      setStartBlocking(true);
+      slidingOptionsRef.current?.closeOpened();
+    };
+
+    const blockFriendHandler = () => {
         // event.stopPropagation();
+        setStartBlocking(false);
         slidingOptionsRef.current?.closeOpened();
         console.log("Blocking...");
+        setToastMessage('Friend Blocked');
     };
 
     const [toastMessage, setToastMessage] = useState('');
+
     const [startDeleting, setStartDeleting] = useState(false);
 
     const startDeleteFriendHandler = () => {
@@ -46,7 +56,7 @@ const Meet: React.FC = () => {
     const deleteFriendHandler = () => {
         setStartDeleting(false);
         console.log("Deleting...");
-        setToastMessage('Deleted Friend');
+        setToastMessage('Friend Deleted');
     };
 
     const [isEditing, setIsEditing] = useState(false);
@@ -61,6 +71,7 @@ const Meet: React.FC = () => {
     };
 
     const [selectedFriend, setSelectedFriend] = useState<{id: string, name: string, avatar: string} | null>();
+
     const startEditFriendHandler = (friendId: string) => {
         slidingOptionsRef.current?.closeOpened();
         console.log("Editing...");
@@ -76,6 +87,7 @@ const Meet: React.FC = () => {
     };
 
     const friendsCtx = useContext(FriendsContext);
+
     const saveFriendHandler = () => {
         const enteredName = nameRef.current!.value;
         if (!enteredName) return;
@@ -94,13 +106,22 @@ const Meet: React.FC = () => {
                           {text: 'No', role:'cancel', handler: () => {setStartDeleting(false)}},
                           {text: 'Yes', handler: deleteFriendHandler}
                       ]}/>
+            <IonAlert isOpen={startBlocking}
+                      header="Are you sure?"
+                      message="Do you want to block your friend? This cannot be undone."
+                      buttons={[
+                          {text: 'No', role:'cancel', handler: () => {setStartBlocking(false)}},
+                          {text: 'Yes', handler: blockFriendHandler}
+                      ]}/>
             <IonToast isOpen={!!toastMessage}
                       message={toastMessage}
                       duration={2000}
                       onDidDismiss={() => {setToastMessage('')}}/>
             <IonModal isOpen={isEditing}>
                 <IonHeader>
-                    <IonLabel>Edit Friend</IonLabel>
+                    <IonToolbar>
+                        <IonTitle>Edit Friend</IonTitle>
+                    </IonToolbar>
                 </IonHeader>
                 <IonContent>
                     <IonGrid>
@@ -142,11 +163,12 @@ const Meet: React.FC = () => {
                     </IonToolbar>
                 </IonHeader>
                 <IonContent>
+                    <IonList>
                     {/*{FRIENDS_DATA.map(friend => (*/}
                     {friendsCtx.friends.map(friend => (
                         <IonItemSliding key={friend.id} ref={slidingOptionsRef}>
                             <IonItemOptions side="start">
-                                <IonItemOption color="danger" onClick={blockFriendHandler}>
+                                <IonItemOption color="danger" onClick={startBlockFriendHandler}>
                                     <IonIcon icon={banSharp} slot="icon-only"/>
                                 </IonItemOption>
                                 <IonItemOption color="warning" onClick={startDeleteFriendHandler}>
@@ -170,6 +192,7 @@ const Meet: React.FC = () => {
                         </IonItem>
                         </IonItemSliding>
                     ))}
+                    </IonList>
                     {isPlatform('android') && (
                         <IonFab horizontal="end" vertical="bottom" slot="fixed">
                             <IonFabButton color="secondary" onClick={startAddFriendHandler}>
@@ -177,8 +200,6 @@ const Meet: React.FC = () => {
                             </IonFabButton>
                         </IonFab>
                     )}
-
-
                 </IonContent>
             </IonPage>
         </React.Fragment>

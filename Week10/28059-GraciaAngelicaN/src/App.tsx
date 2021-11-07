@@ -1,7 +1,7 @@
 import { Redirect, Route } from 'react-router-dom';
-import {IonApp, IonRouterOutlet, IonTabs} from '@ionic/react';
+import { IonApp, IonRouterOutlet } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import MemoriesTabs from "./pages/MemoriesTabs";
+import Home from './pages/Home';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -21,23 +21,19 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import NewMemory from "./pages/NewMemory";
-import MemoriesContextProvider from "./data/MemoriesContextProvider";
 
 const App: React.FC = () => (
   <IonApp>
-      <IonReactRouter>
-          <MemoriesContextProvider>
-              <IonTabs>
-                  <IonRouterOutlet id="main">
-                      <Route path="/tabs" component={MemoriesTabs} />
-                      <Redirect exact from="/" to="/tabs" />
-                  </IonRouterOutlet>
-              </IonTabs>
-          </MemoriesContextProvider>
-      </IonReactRouter>
-
-      {/*<h2>This works!</h2>*/}
+    <IonReactRouter>
+      <IonRouterOutlet>
+        <Route exact path="/home">
+          <Home />
+        </Route>
+        <Route exact path="/">
+          <Redirect to="/home" />
+        </Route>
+      </IonRouterOutlet>
+    </IonReactRouter>
   </IonApp>
 );
 

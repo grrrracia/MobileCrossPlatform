@@ -25,9 +25,10 @@ const FriendsContextProvider: React.FC = props => {
     return(
         <FriendsContext.Provider value={{
             friends,
-        addFriend,
-        updateFriend,
-        deleteFriend}}>
+            addFriend,
+            updateFriend,
+            deleteFriend
+        }}>
             {props.children}
         </FriendsContext.Provider>
     );

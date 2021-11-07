@@ -74,12 +74,12 @@ const App:React.FC = () => {
                         </IonContent>
                 </IonMenu>
                 <FriendsContextProvider>
-                <IonRouterOutlet id="main">
-                    <Route path="/tabs" component={MailTabs} />
-                    <Route path="/mail/:mailId" component={MailDetail} />
-                    <Route path="/settings" component={Settings} />
-                    <Redirect exact from="/" to="/tabs" />
-                </IonRouterOutlet>
+                    <IonRouterOutlet id="main">
+                        <Route path="/tabs" component={MailTabs} />
+                        <Route path="/mail/:mailId" component={MailDetail} />
+                        <Route path="/settings" component={Settings} />
+                        <Redirect exact from="/" to="/tabs" />
+                    </IonRouterOutlet>
                 </FriendsContextProvider>
             </IonReactRouter>
         </IonApp>
