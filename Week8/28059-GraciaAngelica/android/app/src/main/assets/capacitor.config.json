@@ -1,5 +1,5 @@
 {
-	"appId": "com.gracianadaputri.ionic.memories",
+	"appId": "io.ionic.starter",
 	"appName": "Memories",
 	"webDir": "build",
 	"bundledWebRuntime": false
